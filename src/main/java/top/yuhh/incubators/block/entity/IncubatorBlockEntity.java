@@ -1,7 +1,7 @@
 /*
  * Portions of this file are based on code from:
  *
- *   Project: Cobbreeding
+ *   Project: Cobbreeding <https://gitlab.com/ludichat/Cobbreeding/-/tree/master>
  *   Copyright © 2023 Ludichat
  *   Copyright © 2023 Fuzuki <fuzuki@fuzuki.dev>
  *   Licensed under the MIT License
