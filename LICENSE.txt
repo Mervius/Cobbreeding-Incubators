@@ -2,8 +2,16 @@ MIT License
 
 Copyright (c) 2025 Daniel Hagemeier
 
-This license applies to all files in this repository except for files located within the "top.yuhh.incubators.mpl" package.
-Files in that package are subject to their own license terms found within the header of each file therein and the root of the package itself.
+This license applies to all files in this repository excepting:
+
+  1.  Files located within the "top.yuhh.incubators.mpl" package.
+    a.  Files in that package are subject to their own license terms found within the header of each file therein and the root of that package.
+
+  2.  Files provided by the neoforge template.
+    a. Those files are covered by the NEOFORGE_TEMPLACE_LICENSE.txt found in the root of the project.
+
+  3.  Files with their own license headers.
+    a.  These files are covered by the license found within said license headers.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
