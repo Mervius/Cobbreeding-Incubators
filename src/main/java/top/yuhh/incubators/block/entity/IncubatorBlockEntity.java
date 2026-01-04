@@ -1,3 +1,16 @@
+/*
+ * Portions of this file are based on code from:
+ *
+ *   Project: Cobbreeding
+ *   Copyright © 2023 Ludichat
+ *   Copyright © 2023 Fuzuki <fuzuki@fuzuki.dev>
+ *   Licensed under the MIT License
+ *
+ * Modifications and additional code:
+ *   Copyright (c) 2026 Daniel Hagemeier
+ *   Licensed under the MIT License
+ */
+
 package top.yuhh.incubators.block.entity;
 
 import com.cobblemon.mod.common.Cobblemon;
@@ -115,7 +128,10 @@ public class IncubatorBlockEntity extends BlockEntity implements WorldlyContaine
     public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
     }
-
+    
+    /*
+    Most of this function taken from Cobbreeding and modified to spawn a wild pokemon instead of adding to a player's party.
+    */
     public void tick(Level level, BlockPos blockPos, BlockState blockState) {
         ItemStack stack = inventory.getStackInSlot(0);
 
@@ -171,6 +187,9 @@ public class IncubatorBlockEntity extends BlockEntity implements WorldlyContaine
         }
     }
 
+    /*
+    This function directly taken from Cobbreeding unmodified.
+    */
     private void resolveForm(PokemonProperties pokemonProperties) {
         if (pokemonProperties.getForm() != null) {
             Species species = pokemonProperties.getSpecies() != null ? PokemonSpecies.getByName(pokemonProperties.getSpecies()) : null;
@@ -195,6 +214,9 @@ public class IncubatorBlockEntity extends BlockEntity implements WorldlyContaine
         }
     }
 
+    /*
+    Most of this function taken from Cobbreeding and modified to return a pokemon entity instead of adding to a player's party.
+    */
         private PokemonEntity hatchEgg(Level level, BlockPos pos, PokemonProperties properties) {
             try {
 //                CobblemonEvents.HATCH_EGG_PRE.post(new HatchEggEvent.Pre(properties, (ServerPlayer) entity));
