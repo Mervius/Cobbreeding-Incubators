@@ -7,7 +7,7 @@
  *   Licensed under the MIT License
  *
  * Modifications and additional code:
- *   Copyright (c) 2026 Daniel Hagemeier
+ *   Copyright (c) 2025 Daniel Hagemeier
  *   Licensed under the MIT License
  */
 
