@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Incubators.MODID);
 
-    public static final DeferredBlock<Block> INCUBATOR_BLOCK = registerBlock("egg_incubator", () -> new IncubatorBlock(BlockBehaviour.Properties.of().noOcclusion().mapColor(MapColor.COLOR_BROWN).sound(SoundType.WOOD).pushReaction(PushReaction.BLOCK).isSuffocating((state, world, pos) -> false).isRedstoneConductor((state, world, pos) -> false)));
+    public static final DeferredBlock<Block> INCUBATOR_BLOCK = registerBlock("egg_incubator", () -> new IncubatorBlock(BlockBehaviour.Properties.of().noOcclusion().mapColor(MapColor.COLOR_BROWN).sound(SoundType.WOOD).pushReaction(PushReaction.BLOCK).isSuffocating((state, world, pos) -> false).isRedstoneConductor((state, world, pos) -> false).strength(2F).ignitedByLava().mapColor(MapColor.WOOD)));
 
 
     private  static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
