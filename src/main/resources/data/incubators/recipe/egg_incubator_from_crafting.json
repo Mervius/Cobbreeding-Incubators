@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "X": {
+      "tag": "minecraft:planks"
+    },
+    "A": {
+      "item": "minecraft:wheat"
+    }
+  },
+  "pattern": [
+    "XAX",
+    "XAX",
+    "AAA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "incubators:egg_incubator"
+  }
+}
