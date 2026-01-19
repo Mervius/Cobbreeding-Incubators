@@ -156,22 +156,20 @@ public class IncubatorBlockEntity extends BlockEntity implements WorldlyContaine
 
                         resolveForm(pokemonProperties);
                         PokemonEntity entity = hatchEgg(level, blockPos, pokemonProperties);
+
                         if(entity != null) {
                             BlockPos front = blockPos.relative(level.getBlockState(blockPos).getValue(IncubatorBlock.FACING));
                             if(!level.collidesWithSuffocatingBlock(entity, entity.getDimensions(Pose.STANDING).makeBoundingBox(front.getBottomCenter()))) {
                                 BlockState state = level.getBlockState(front.below());
                                 if(!state.isAir() && (state.entityCanStandOn(level, front.below(), entity)) || state.entityCanStandOnFace(level, front.below(), entity, Direction.DOWN)) {
+                                    clearContents();
                                     entity.setPos(blockPos.relative(level.getBlockState(blockPos).getValue(IncubatorBlock.FACING)).getCenter());
                                     level.addFreshEntity(entity);
-                                    clearContents();
-                                    level.playSound(null,blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 2.0F, 1.0F);
+                                    level.playSound(null,blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 2.0F, 0.25F);
                                     Pokemon poke = ((PokemonEntity)entity).getPokemon();
                                     poke.setState(new SentOutState(entity));
                                     entity.after(1.5F, () -> {
-                                        // Play the cry animation and sound
-                                        entity.cry(); // triggers GeckoLib animation + sound
-                                        // End the send-out beam
-                                        entity.setBeamMode(0);
+                                        entity.cry();
                                         return kotlin.Unit.INSTANCE;
                                     });
                                 }
@@ -179,12 +177,14 @@ public class IncubatorBlockEntity extends BlockEntity implements WorldlyContaine
                         } else {
                             Incubators.LOGGER.error("Null pokemon species tried to hatch, deleting egg.");
                             clearContents();
+                            level.playSound(null,blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 2.0F, 0.25F);
                         }
                     }
                     else
                     {
                         Incubators.LOGGER.error("Couldn't resolve pokemon species to hatch, deleting egg.");
                         clearContents();
+                        level.playSound(null,blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 2.0F, 0.25F);
                     }
                 }
             }
