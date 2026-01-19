@@ -1,5 +1,6 @@
 package top.yuhh.incubators;
 
+import net.minecraft.world.level.block.FireBlock;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -72,7 +73,11 @@ public class Incubators {
 
     private void commonSetup(FMLCommonSetupEvent event) {
         // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
+        event.enqueueWork(() -> {
+            FireBlock fire = (FireBlock) Blocks.FIRE;
+
+            fire.setFlammable(ModBlocks.INCUBATOR_BLOCK.get(), 5, 20);
+        });
     }
 
     // Add the example block item to the building blocks tab

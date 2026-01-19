@@ -13,9 +13,7 @@
 
 package top.yuhh.incubators.block.entity;
 
-import com.cobblemon.mod.common.Cobblemon;
 import com.cobblemon.mod.common.CobblemonEntities;
-import com.cobblemon.mod.common.api.events.CobblemonEvents;
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature;
@@ -24,8 +22,8 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.FormData;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.Species;
+import com.cobblemon.mod.common.pokemon.activestate.SentOutState;
 import com.cobblemon.mod.common.util.DataKeys;
-import ludichat.cobbreeding.Cobbreeding;
 import ludichat.cobbreeding.CustomProperties;
 import ludichat.cobbreeding.EggUtilities;
 import ludichat.cobbreeding.PokemonEgg;
@@ -35,30 +33,25 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import top.yuhh.incubators.Incubators;
 import top.yuhh.incubators.block.IncubatorBlock;
 import top.yuhh.incubators.component.ModComponents;
-
-import java.util.List;
-import java.util.UUID;
 
 public class IncubatorBlockEntity extends BlockEntity implements WorldlyContainer {
 
@@ -171,8 +164,21 @@ public class IncubatorBlockEntity extends BlockEntity implements WorldlyContaine
                                     entity.setPos(blockPos.relative(level.getBlockState(blockPos).getValue(IncubatorBlock.FACING)).getCenter());
                                     level.addFreshEntity(entity);
                                     clearContents();
+                                    level.playSound(null,blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 2.0F, 1.0F);
+                                    Pokemon poke = ((PokemonEntity)entity).getPokemon();
+                                    poke.setState(new SentOutState(entity));
+                                    entity.after(1.5F, () -> {
+                                        // Play the cry animation and sound
+                                        entity.cry(); // triggers GeckoLib animation + sound
+                                        // End the send-out beam
+                                        entity.setBeamMode(0);
+                                        return kotlin.Unit.INSTANCE;
+                                    });
                                 }
                             }
+                        } else {
+                            Incubators.LOGGER.error("Null pokemon species tried to hatch, deleting egg.");
+                            clearContents();
                         }
                     }
                     else
@@ -180,7 +186,6 @@ public class IncubatorBlockEntity extends BlockEntity implements WorldlyContaine
                         Incubators.LOGGER.error("Couldn't resolve pokemon species to hatch, deleting egg.");
                         clearContents();
                     }
-
                 }
             }
 
